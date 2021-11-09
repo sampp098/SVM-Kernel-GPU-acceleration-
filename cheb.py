@@ -35,7 +35,7 @@ __global__ void Chebyshev(float *x, float *y, float *p_cheb){
     float a,b, chebyshev_result, weight;
     chebyshev_result =0 ;
     p_cheb[0] = 1;
-    int idx = threadIdx.x *4;
+    int idx = blockIdx.x  blockDim.x + threadIdx.x *4;
     for( j=0; j<4; j++){    
         for( i=0; i<4; i++){
             a = cos(i * acos(x[j]));

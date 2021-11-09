@@ -27,7 +27,7 @@ mod = SourceModule("""
         __global__ void Chebyshev(float *x, float *y, float *p_cheb, int Sample){
           int i, j;
           float a,b, chebyshev_result, weight;
-          int idx = threadIdx.x *4;
+          int idx = blockIdx.x  blockDim.x + threadIdx.x *4;
           int jj = threadIdx.x;
           for ( int index=0; index < Sample ; index++){
                 chebyshev_result=0;
