@@ -30,21 +30,21 @@ import numpy as np
 import pdb
 
 mod = SourceModule("""
-__global__ void Chebyshev(float *x, float *y, float *p_cheb){
-    int i, j;
-    float a,b, chebyshev_result, weight;
-    chebyshev_result =0 ;
-    p_cheb[0] = 1;
-    int idx = blockIdx.x  blockDim.x + threadIdx.x *4;
-    for( j=0; j<4; j++){    
-        for( i=0; i<4; i++){
-            a = cos(i * acos(x[j]));
-            b = cos(i * acos(y[j+idx]));
-            chebyshev_result += (a * b);
+    __global__ void Chebyshev(float *x, float *y, float *p_cheb){
+        int i, j;
+        float a,b, chebyshev_result, weight;
+        chebyshev_result =0 ;
+        p_cheb[0] = 1;
+        int idx = blockIdx.x  blockDim.x + threadIdx.x *4;
+        for( j=0; j<4; j++){    
+            for( i=0; i<4; i++){
+                a = cos(i * acos(x[j+idx]));
+                b = cos(i * acos(y[j+idx]));
+                chebyshev_result += (a * b);
+            }
+            weight = sqrt(1 - (x[j+idx] * y[j+idx]) + 0.0002);
+            p_cheb[0] *= chebyshev_result / weight;
         }
-        weight = sqrt(1 - (x[j] * y[j+idx]) + 0.0002);
-        p_cheb[0] *= chebyshev_result / weight;
-      }
     }
 """)
 func = mod.get_function("Chebyshev")

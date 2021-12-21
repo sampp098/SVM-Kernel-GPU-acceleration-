@@ -34,15 +34,15 @@ mod = SourceModule("""
                 p_cheb[index*Sample+jj]=1;
                 for( j=0; j<4; j++){    
                     for( i=0; i<4; i++){
-                        a = cos(i * acos(x[index*4+j]));
-                        b = cos(i * acos(y[j+idx]));
+                        a = cos(i * acos(x[j+index*idx]));
+                        b = cos(i * acos(y[j+index*idx]));
                         chebyshev_result += (a * b);
                     }
-                    weight = sqrt(1 - (x[index*4+j] * y[j+idx]) + 0.0002);
+                    weight = sqrt(1 - (x[index*idx+j] * y[j+index*idx]) + 0.0002);
                     p_cheb[index*Sample+jj] *= chebyshev_result / weight;
                 }
             }
-            }
+        }
 """)
 
 
